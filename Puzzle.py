@@ -119,15 +119,17 @@ class Puzzle:
 
 
 matrix=[[13,1,2,4],[5,0,3,7],[9,6,10,12],[15,8,11,14]]
+matrix2=[[3, 9, 1, 15], [14 ,11, 4, 6], [13, 0, 10, 12],[ 2, 7, 8, 5]]
+matrix3=[[2 ,6 ,5 ,4 ],[1 ,0 ,3, 8] ,[9 ,10 ,7 ,11], [13 ,14 ,15 ,12]]
 goal=[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
 p=Puzzle()
-print(p.calculateCost(matrix,goal))
-p.Shifting(matrix)
-print(p.Manhatton(matrix,goal))
+print(p.calculateCost(matrix3,goal))
+p.Shifting(matrix3)
+print(p.Manhatton(matrix3,goal))
 #goal=Node(matrix,0,0,0,0,0,None)
 #n=Node(matrix,0,0,0,0,0,goal)
 #p.printPath(n)
-p.solveManhatton(matrix,goal,0,0)
+p.solveManhatton(matrix3,goal,0,0)
 #p.Manhatton(matrix,goal)
 #p.printMatrix(matrix)
 #p.isSolvable(matrix)
