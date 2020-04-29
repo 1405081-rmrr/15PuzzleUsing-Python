@@ -28,7 +28,8 @@ class Node:
         self.cost=cost
         self.matrix=matrix
 
-    def __repr__(self):
+    #def __repr__(self):
+    def __str__(self):
         return "Node(val={} cost={})".format(self.val,self.cost)
 
 matrix=matrix=[[13,1,2,4],[5,0,3,7],[9,6,10,12],[15,8,11,14]]
@@ -49,8 +50,8 @@ class ComparableNode:
         return self.node.val == other.node.val
         
        """
-    def __repr__(self):
-       return repr(self.node)
+    def __str__(self):
+      return repr(self.node)
 
 
 p = queue.PriorityQueue()
@@ -58,4 +59,7 @@ p.put(ComparableNode(a))
 p.put(ComparableNode(b))
 p.put(ComparableNode(c))
 for i in range(p.qsize()):
-       print(p.get(i))
+       print(type(p.get(i)))
+       break
+
+
