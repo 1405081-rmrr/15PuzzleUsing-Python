@@ -29,21 +29,22 @@ class Node:
         self.matrix=matrix
 
     #def __repr__(self):
-    def __str__(self):
+    def __repr__(self):
         return "Node(val={} cost={})".format(self.val,self.cost)
 
 matrix=matrix=[[13,1,2,4],[5,0,3,7],[9,6,10,12],[15,8,11,14]]
-a = Node(10,5,matrix) #15
+a = Node(10,500,matrix) #510
 b = Node(40,65,matrix) #105
 c = Node(4,300,matrix) #304
 
 class ComparableNode:
-    def __init__(self, node):
-        self.node = node
+    def __init__(self, cost,val):
+        self.cost=cost
+        self.val=val
 
     def __gt__(self, other):
-       x=self.node.cost+self.node.val
-       y=other.node.cost+other.node.val
+       x=self.cost+self.val
+       y=other.cost+other.val
        return x>y
 
     """def __eq__(self, other):
@@ -51,15 +52,20 @@ class ComparableNode:
         
        """
     def __str__(self):
-      return repr(self.node)
+      return repr((self.cost+self.val))
 
 
 p = queue.PriorityQueue()
-p.put(ComparableNode(a))
-p.put(ComparableNode(b))
-p.put(ComparableNode(c))
+p.put(ComparableNode(10,500))
+p.put(ComparableNode(40,65))
+p.put(ComparableNode(4,300))
+
+#print(p.get())
+#print(type(p.get()))
 for i in range(p.qsize()):
-       print(type(p.get(i)))
-       break
+    print(p.get(i))
+
+print(not p.empty())
+
 
 
