@@ -1,21 +1,23 @@
 import queue
 import  heapq
-from Node import Node
-from PQ import ComparableNode
-from collections import defaultdict
+from Node import Node,ComparableNode
+#from collections import defaultdict
 class Puzzle:
     def __init__(self):
-        self.count=0
+        #self.count=0
         self.rowmap={}
         self.colmap={}
         self.dimension=4
+        self.row=[1,0,-1,0]
+        self.col=[0,-1,0,1]
     def calculateCost(self,initial, goal):
-        #self.count=count = 0
+        count = 0
         for i in range(len(initial)):
             for j in range(len(initial)):
                 if (initial[i][j] != 0 and initial[i][j] != goal[i][j]):
-                    self.count = self.count + 1
-        return self.count
+                    count = count + 1
+        return count
+
 
     def Shifting(self,matrix):
        for i in range(len(matrix)):
@@ -24,12 +26,13 @@ class Puzzle:
                 self.rowmap[m] = i
                 self.colmap[m] = j
 
-       for key, value in self.rowmap.items():
+       """for key, value in self.rowmap.items():
             print('elemnt:{},Rownumber {}'.format(key, value))
        print()
        for key, value in self.colmap.items():
             print('elemnt:{},Columnnumber {}'.format(key, value))
        print()
+       """
     def Count(self,a,i,j):
         p=self.rowmap.get(a)
         q=self.colmap.get(a)
@@ -46,14 +49,14 @@ class Puzzle:
                     v=goal[i][j]
                     cnt=self.Count(v,i,j)
                     cst =cst + cnt
-        print(type(cst))
+        #print(type(cst))
         return cst
     def printMatrix(self,matrix):
         for i in range(len(matrix)):
             for j in range(len(matrix)):
                 print(matrix[i][j], end=" ")
             print()
-    def isSafe(x,y):
+    def isSafe(self,x,y):
         return (x>=0 and x<self.dimension and y>=0 and y<self.dimension)
     def printPath(self,root):
         if(root==None):
@@ -101,7 +104,7 @@ class Puzzle:
         return b%2==1
     def SwapNumber(self,matrix1,matrix2):
         count=0
-        for i in range(0,len(matrix),1):
+        for i in range(0,len(matrix1),1):
             for j in range(0,len(matrix2),1):
                 if(matrix1[i][j]!=matrix2[i][j]):
                     count=count+1
@@ -110,26 +113,74 @@ class Puzzle:
     def solveManhatton(self,initial,goal,x,y):
         root=Node(initial,x,y,x,y,0,None)
         root.cost=self.Manhatton(initial,goal)
-        print(root.cost)
         pq=queue.PriorityQueue()
-        pq.put(ComparableNode(root))
+        #pq.put(ComparableNode(root))
+        pq.put(ComparableNode(root.cost,root.level,root.matrix,x,y,x,y,None))
+        #print(root.x)
+        #min=pq.get()
+        #print(min)
+        #min=pq.get()
+        #print(min.papa)
+        #print(min.cost)
+        #self.printMatrix(min.matrix)
+        #self.printPath(min)
+
+            #self.printMatrix(min.matrix)
+        while(not pq.empty()):
+            min=pq.get()
+            node1 = Node(min.matrix, min.x, min.y, min.x, min.y, min.level, min.parent)
+            if(min.cost==0):
+
+                #node1 = Node(min.matrix, min.x, min.y, min.x,min.y,min.level, min.parent)
+                self.printPath(min)
+                #self.printMatrix(min.matrix)
+                #self.printMatrix(min.matrix)
+                #print(min.matrix)
+                return
+           # node = Node(min.matrix, min.x, min.y, min.x, min.y, min.level, min.parent)
+            for i in range(4):
+
+                if(self.isSafe((node1.x+self.row[i]),(node1.y+self.col[i]))):
+                    #node=Node(min.matrix,min.x,min.y,min.x,min.y,min.level,min.parent)
+                    #child=Node(min.matrix, min.x, min.y, min.x + self.row[i], min.y + self.col[i], min.level + 1, min)
+                    child=Node(node1.matrix,node1.x,node1.y,node1.x+self.row[i],node1.y+self.col[i],node1.level+1,node1)
+                    child.cost=self.calculateCost(child.matrix,goal)
+                    pq.put(ComparableNode(child.cost,child.level,child.matrix,child.x, child.y,child.x,child.y,node1))
 
 
 
 
 
-matrix=[[13,1,2,4],[5,0,3,7],[9,6,10,12],[15,8,11,14]]
-matrix2=[[3, 9, 1, 15], [14 ,11, 4, 6], [13, 0, 10, 12],[ 2, 7, 8, 5]]
-matrix3=[[2 ,6 ,5 ,4 ],[1 ,0 ,3, 8] ,[9 ,10 ,7 ,11], [13 ,14 ,15 ,12]]
+
+
+
+
+
+
+
+
+
+
+matrix1=[[2 ,3, 4, 0], [1 ,5, 7, 8] ,[9, 6 ,10, 12], [13, 14, 11, 15]] #thikthak
+matrix2=[[5, 1 ,7 ,3], [9 ,2 ,11 ,4], [13 ,6 ,15 ,8], [0 ,10 ,14 ,12]]#thiktha
+matrix3=[[1, 2 ,3, 4] ,[5, 6, 7, 8], [9, 10, 11, 12],[ 13, 15, 14, 0]]
 goal=[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]
+x=0
+y=3
 p=Puzzle()
-print(p.calculateCost(matrix3,goal))
-p.Shifting(matrix3)
-print(p.Manhatton(matrix3,goal))
+
+if(p.isSolvable(matrix1)):
+        p.SwapNumber(matrix1,goal)
+        p.Shifting(matrix1)
+        p.Manhatton(matrix1,goal)
+        p.solveManhatton(matrix1,goal,x,y)
+#print(p.calculateCost(matrix2,goal))
+#p.Shifting(matrix2)
+#print(p.Manhatton(matrix2,goal))
 #goal=Node(matrix,0,0,0,0,0,None)
 #n=Node(matrix,0,0,0,0,0,goal)
 #p.printPath(n)
-p.solveManhatton(matrix3,goal,0,0)
+#p.solveManhatton(matrix2,goal,0,0)
 #p.Manhatton(matrix,goal)
 #p.printMatrix(matrix)
 #p.isSolvable(matrix)
