@@ -15,3 +15,4 @@ p=Node(14,m)
 l.print_node()
 m.print_node()
 p.print_node()
+#Linkedlist dekhaise
