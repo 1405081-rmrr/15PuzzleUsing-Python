@@ -5,3 +5,4 @@ for i in range(len(x)):
        # print(x[i][j],end=" ")
          print(x[i][j],end=" ")
     print()
+#matrix er print
