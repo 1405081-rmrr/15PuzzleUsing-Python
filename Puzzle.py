@@ -170,11 +170,11 @@ x=3
 y=2
 p=Puzzle()
 
-if(p.isSolvable(matrix1)):
-        p.SwapNumber(matrix1,goal)
-        p.Shifting(matrix1)
-        p.Manhatton(matrix1,goal)
-        p.solveManhatton(matrix1,goal,x,y)
+if(p.isSolvable(matrix4)):
+        p.SwapNumber(matrix4,goal)
+        p.Shifting(matrix4)
+        p.Manhatton(matrix4,goal)
+        p.solveManhatton(matrix4,goal,x,y)
 #print(p.calculateCost(matrix2,goal))
 #p.Shifting(matrix2)
 #print(p.Manhatton(matrix2,goal))
